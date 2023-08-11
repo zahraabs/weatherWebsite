@@ -6,8 +6,10 @@ const enterButton = modal.querySelector('button');
 const weatherIcon = modal.querySelector('.weather-icon');
 const temperature = modal.querySelector('.temp');
 const city = modal.querySelector('.city');
+const country = modal.querySelector('.country');
 const humidity = modal.querySelector('.humidity');
 const windSpeed = modal.querySelector('.wind');
+const pressure = modal.querySelector('.pressure');
 const card = modal.querySelector('.card');
 
 const apiKey = "f3e559c84d85921b525063ad634edb0b";
@@ -36,29 +38,15 @@ async function getWeatherData(cityName) {
     // Example API call using fetch()
     const response = await fetch(apiUrl + cityName +`&appid=${apiKey}`);
     let data = await response.json();
-    // .then(response => response.json())
-    // .then(data => {
-    //   // Extract relevant information from the API response
-    //   const { currentConditions, days } = data;
-    //   const { icon, temp, humidity, windspeed } = currentConditions;
-
-    //   // Update the DOM with the weather data
-    //   weatherIcon.src = `./assets/images/${icon}.png`;
-    //   temperature.textContent = `${temp}℃`;
-    //   city.textContent = cityName;
-    //   humidity.textContent = `${humidity}%`;
-    //   windSpeed.textContent = `${windspeed} km/h`;
-    // })
-    // .catch(error => {
-    //   console.log('Error:', error);
-    // });
 
     console.log(data);
-  card.style.display = "block"
+    card.style.display = "block"
     city.innerHTML = data.name;
+    country.innerHTML = data.sys.country;
     temperature.innerHTML = Math.round(data.main.temp) + "℃";
     humidity.innerHTML = data.main.humidity + "%";
     windSpeed.innerHTML = Math.round(data.wind.speed) + "km/h" ;
+    pressure.innerHTML = Math.round(data.main.pressure) + "mbar" ;
 
     if (data.weather[0].main == "clouds") {
       weatherIcon.src = "./assets/images/cloudy-day.png"
