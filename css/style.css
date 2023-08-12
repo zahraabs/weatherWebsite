@@ -1143,7 +1143,9 @@ h3 {
   }
   
   .city-card {
+    width: 250px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     background-color: #f2f2f2;
     padding: 10px;
@@ -1157,10 +1159,3 @@ h3 {
     font-size: 1.2rem;
   }
   
-  .remove-button {
-    border: none;
-    background-color: transparent;
-    color: red;
-    font-size: 1.2rem;
-    cursor: pointer;
-  }

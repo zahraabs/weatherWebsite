@@ -12,6 +12,7 @@ const humidity = card.querySelector('.humidity');
 const windSpeed = card.querySelector('.wind');
 const pressure = card.querySelector('.pressure');
 
+let cityCardCount = 0;
 const savedCitiesContainer = document.createElement('div');
 savedCitiesContainer.classList.add('saved-cities-container');
 modal.parentNode.insertBefore(savedCitiesContainer, modal);
@@ -23,6 +24,7 @@ const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q="
 enterButton.addEventListener('click', () => {
   const searchTerm = searchInput.value.trim();
   getWeatherData(searchTerm);
+  searchInput.value ="";
 });
 
 searchInput.addEventListener('keydown', (event) => {
@@ -30,6 +32,7 @@ searchInput.addEventListener('keydown', (event) => {
     event.preventDefault();
     const searchTerm = searchInput.value.trim();
     getWeatherData(searchTerm);
+    searchInput.value ="";
   }
 });
 link.addEventListener("click", showModal);
@@ -63,9 +66,31 @@ async function getWeatherData(cityName) {
     cardContainer.appendChild(weatherCard)
     // card.style.display = "block";
     error.style.display = "none";
+    const cityCards = savedCitiesContainer.querySelectorAll('.city-card');
+    const MAX_CITY_CARDS = 3;
+    const cityName = data.name;
+    
+    // Check if a city card for the searched city already exists
+    const existingCityCards = savedCitiesContainer.querySelectorAll(`.city-card .city[data-city="${cityName}"]`);
+    if (existingCityCards.length > 0) {
+      // If a city card for the searched city already exists, do not add a new card
+      return;
+    }
+    
+    // Check if the maximum number of city cards has been reached
+    
+    if (cityCards.length >= MAX_CITY_CARDS) {
+      // If the maximum number of city cards has been reached, remove the oldest city card
+      savedCitiesContainer.removeChild(cityCards[MAX_CITY_CARDS - 1]);
+    }
+    
+    // Create a new city card for the searched city
     const cityCard = createCityCard(data);
-    savedCitiesContainer.appendChild(cityCard);
+    
+    // Add the new city card to the saved cities container
+    savedCitiesContainer.insertBefore(cityCard, savedCitiesContainer.firstChild);
   }
+
 
 }
 
@@ -195,21 +220,73 @@ function createCityCard(data) {
   const cityCard = document.createElement('div');
   cityCard.classList.add('city-card');
 
-  const cityName = document.createElement('h3');
-  cityName.classList.add('city-name');
-  cityName.textContent = data.name;
+  const weatherIcon = document.createElement('img');
+  weatherIcon.classList.add('weather-icon');
+  weatherIcon.src = getWeatherIcon(data.weather[0].main);
 
-  const removeButton = document.createElement('button');
-  removeButton.classList.add('remove-button');
-  removeButton.innerHTML = '<i class="fas fa-trash"></i>';
+  const cityElem = document.createElement('h2');
+  cityElem.classList.add('city');
+  cityElem.textContent = data.name;
 
-  cityCard.appendChild(cityName);
-  cityCard.appendChild(removeButton);
+  const countryElem = document.createElement('h3');
+  countryElem.classList.add('country');
+  countryElem.textContent = data.sys.country;
 
-  // add an event listener to the remove button to delete the city card
-  removeButton.addEventListener('click', () => {
-    cityCard.remove();
-  });
+  const tempElem = document.createElement('p');
+  tempElem.classList.add('temp');
+  tempElem.innerHTML = `${Math.round(data.main.temp)}<span class="temp-unit">°C</span>`;
+
+  const detailsElem = document.createElement('div');
+  detailsElem.classList.add('details');
+
+  const humidityElem = document.createElement('p');
+  humidityElem.classList.add('humidity');
+  humidityElem.innerHTML = `<i class="fas fa-tint"></i> ${data.main.humidity}%`;
+
+  const windElem = document.createElement('p');
+  windElem.classList.add('wind');
+  windElem.innerHTML = `<i class="fas fa-wind"></i> ${Math.round(data.wind.speed)} km/h`;
+
+  detailsElem.appendChild(humidityElem);
+  detailsElem.appendChild(windElem);
+
+  cityCard.appendChild(weatherIcon);
+  cityCard.appendChild(cityElem);
+  cityCard.appendChild(countryElem);
+  cityCard.appendChild(tempElem);
+  cityCard.appendChild(detailsElem);
+
+  const cityData = {
+    name: data.name,
+    country: data.sys.country,
+    temperature: Math.round(data.main.temp),
+    humidity: data.main.humidity,
+    windSpeed: Math.round(data.wind.speed),
+    weatherIcon: getWeatherIcon(data.weather[0].main)
+  };
+  const savedCities = JSON.parse(localStorage.getItem('savedCities')) || [];
+  savedCities.unshift(cityData);
+  localStorage.setItem('savedCities', JSON.stringify(savedCities));
 
   return cityCard;
+}
+
+// Read the saved cities from local storage and create city cards for each saved city
+const savedCities = JSON.parse(localStorage.getItem('savedCities')) || [];
+
+const MAX_CITY_CARDS = 3; // Maximum number of city cards to display
+
+// Truncate the savedCities array if it exceeds the maximum limit
+if (savedCities.length > MAX_CITY_CARDS) {
+  savedCities.splice(MAX_CITY_CARDS);
+}
+for (const cityData of savedCities) {
+  const cityCard = createCityCard({
+    name: cityData.name,
+    sys: { country: cityData.country },
+    main: { temp: cityData.temperature, humidity: cityData.humidity },
+    wind: { speed: cityData.windSpeed },
+    weather: [{ main: getWeatherData(cityData.weatherIcon) }]
+  });
+  savedCitiesContainer.appendChild(cityCard);
 }
