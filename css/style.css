@@ -337,8 +337,8 @@ h3 {
     top: 0;
 
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-around;
+    align-items: flex-start;
 
     transform: scale(0);
     transform-origin: top center;
@@ -353,11 +353,50 @@ h3 {
     font-size: 40px;
 
     position: absolute;
-    top: 10%;
-    left: 10%;
+    top: 5%;
+    left: 5%;
 }
 
-.modal>input {
+.CotainerHistoryBoxes
+{
+    width: 80%;
+    height: 48%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.HistoryBox
+{
+    width: 30%;
+    height: 90%;
+    border-radius: 5px;
+    background-color: var(--color-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* display: none; */
+}
+
+
+.SearchCardContainer
+{
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    height: 350px;
+    transform: translate(-50% , 0);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+
+
+
+.modal .SearchCardContainer input {
 
     width: 450px;
     background-color: transparent;
@@ -371,7 +410,7 @@ h3 {
 
 }
 
-.modal > button{
+.modal  .SearchCardContainer  button{
     width: 80px;
     padding: 0.5rem 1rem;
     border-radius: var(--border-radius);
@@ -1036,12 +1075,11 @@ h3 {
 }
 
 .weather {
-    position: absolute;
     top: 350px;
     text-align: center;
 }
 
-.weather .card {
+.weather .card-weather {
     width: 350px;
     height: 300px;
     background-color: #fff;
@@ -1049,15 +1087,14 @@ h3 {
 
 .weather-icon {
     width: 100px;
-    margin-top: 10px;
 }
 
-.weather h1 {
+.modal h1 {
     font-size: 30px;
     font-weight: 500;
 }
 
-.weather h2 {
+.modal h2 {
     font-size: 25px;
     font-weight: 400;
     margin-top: -10px;
@@ -1068,7 +1105,6 @@ h3 {
     justify-content: space-between;
     align-items: center;
     padding: 0 10px;
-    margin-top: 10px;
 }
 
 .col {
@@ -1078,14 +1114,53 @@ h3 {
 }
 
 .col img {
-    width: 30px;
+    width: 25px;
     margin-right: 10px;
 }
 
-.card{
+/* .card-weather {
     display: none;
-}
+} */
 
 .pressure{
     margin-top: 5px;
 }
+
+
+.error{
+    position: absolute;
+    top: 300px;
+    color: rgb(250, 55, 55);
+    display: none;
+}
+
+
+.saved-cities-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .city-card {
+    display: flex;
+    align-items: center;
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .city-name {
+    margin-right: 10px;
+    font-size: 1.2rem;
+  }
+  
+  .remove-button {
+    border: none;
+    background-color: transparent;
+    color: red;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }

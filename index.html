@@ -4,16 +4,16 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/fonts.css" />
     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
-    />
+      />
+      <title>Weather forcast website</title>
   </head>
   <!-- START BODY SECTION -->
   <body>
@@ -50,42 +50,138 @@
     <!-- END HEADER SECTION -->
     <!-- START MAIN SECTION -->
     <main>
-      <!-- START POST JOB SECTION -->
+   
       <div class="modal">
         <i class="	fa fa-close"></i>
-        <input type="search" name="search" id="search" placeholder="serach ..." />
-        <button>Enter</button>
-        <div class="weather">
-          <div class="card">
-          <img src="./assets/images/clear-day.png" alt="clear" class="weather-icon">
-          <h1 class="temp"> 22℃</h1>
-          <h2 class="city">New York</h2>
-          <p class="country">iran</p>
-          <div class="details">
-            <div class="col">
-              <img src="./assets/images/download.jpg" alt="">
+        <div class="error">
+          <p>Invalid city name</p>
+        </div>
+      <!-- <div class="CotainerHistoryBoxes">
+
+        <div class="HistoryBox">
+
+          <div class="weather">
+            <div class="card-history">
+              <img src="./assets/images/clear-day.png" alt="clear" class="weather-icon">
+              <h1 class="temp"> 22℃</h1>
+              <h2 class="city">New York</h2>
+              <p class="country">iran</p>
+              <div class="details">
+                <div class="col">
+                  <img src="./assets/images/download.jpg" alt="">
+                  <div>
+                    <p class="humidity">50%</p>
+                    <p>humidity</p>
+                  </div>
+                </div>
+                <div class="col">
+                  <img src="./assets/images/wind.png" alt="">
+                  <div>
+                    <p class="wind">15 km/h</p>
+                    <p>wind speed</p>
+                  </div>
+                </div>
+              </div>
               <div>
-                <p class="humidity">50%</p>
-                <p>humidity</p>
+                <p class="pressure">1510 mbar</p>
+                <p>pressure</p>
               </div>
             </div>
-            <div class="col">
-              <img src="./assets/images/wind.png" alt="">
-              <div >
-                <p class="wind">15 km/h</p>
-                <p>wind wpeed</p>
+          </div>
+
+        </div>
+
+        <div class="HistoryBox">
+
+          <div class="weather">
+            <div class="card-history">
+              <img src="./assets/images/clear-day.png" alt="clear" class="weather-icon">
+              <h1 class="temp"> 22℃</h1>
+              <h2 class="city">New York</h2>
+              <p class="country">iran</p>
+              <div class="details">
+                <div class="col">
+                  <img src="./assets/images/download.jpg" alt="">
+                  <div>
+                    <p class="humidity">50%</p>
+                    <p>humidity</p>
+                  </div>
+                </div>
+                <div class="col">
+                  <img src="./assets/images/wind.png" alt="">
+                  <div>
+                    <p class="wind">15 km/h</p>
+                    <p>wind speed</p>
+                  </div>
+                </div>
               </div>
-             
+              <div>
+                <p class="pressure">1510 mbar</p>
+                <p>pressure</p>
+              </div>
             </div>
-    
           </div>
-          <div >
-            <p class="pressure">1510 mbar</p>
-            <p>pressure</p>
+
+        </div>
+
+        <div class="HistoryBox">
+
+          <div class="weather">
+            <div class="card-history">
+              <img src="./assets/images/clear-day.png" alt="clear" class="weather-icon">
+              <h1 class="temp"> 22℃</h1>
+              <h2 class="city">New York</h2>
+              <p class="country">iran</p>
+              <div class="details">
+                <div class="col">
+                  <img src="./assets/images/download.jpg" alt="">
+                  <div>
+                    <p class="humidity">50%</p>
+                    <p>humidity</p>
+                  </div>
+                </div>
+                <div class="col">
+                  <img src="./assets/images/wind.png" alt="">
+                  <div>
+                    <p class="wind">15 km/h</p>
+                    <p>wind speed</p>
+                  </div>
+
+                </div>
+
+              </div>
+              <div>
+                <p class="pressure">1510 mbar</p>
+                <p>pressure</p>
+              </div>
+            </div>
           </div>
+
+        </div>
+
+
+      </div> -->
+
+
+      <div class="SearchCardContainer">
+
+        <div class="SearchSection">
+          <input type="search" name="search" id="search" placeholder="serach ..." />
+          <button>Search</button>
+        </div>
+
+
+
+        <div class="weather">
+          <div class="card-container">
+            <div class="card-weather">
+            </div>
+          </div>
+         
         </div>
       </div>
       </div>
+         <!-- START POST JOB SECTION -->
       <section class="post-job container container-one">
         <div class="post-job__left">
           <h1 class="post-job__left--header">
