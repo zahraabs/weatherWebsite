@@ -71,8 +71,8 @@ async function getWeatherData(cityName) {
     const cityName = data.name;
     
     // Check if a city card for the searched city already exists
-    const existingCityCards = savedCitiesContainer.querySelectorAll(`.city-card .city[data-city="${cityName}"]`);
-    if (existingCityCards.length > 0) {
+    const existingCityCards = savedCitiesContainer.querySelector(`.city-card .city[data-city="${cityName}"]`);
+    if (existingCityCards) {
       // If a city card for the searched city already exists, do not add a new card
       return;
     }
@@ -265,9 +265,11 @@ function createCityCard(data) {
     weatherIcon: getWeatherIcon(data.weather[0].main)
   };
   const savedCities = JSON.parse(localStorage.getItem('savedCities')) || [];
-  savedCities.unshift(cityData);
-  localStorage.setItem('savedCities', JSON.stringify(savedCities));
-
+  const existingCity = savedCities.find(city => city.name === cityData.name);
+  if (!existingCity) {
+    savedCities.unshift(cityData);
+    localStorage.setItem('savedCities', JSON.stringify(savedCities));
+  }
   return cityCard;
 }
 

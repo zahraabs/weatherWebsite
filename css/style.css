@@ -342,7 +342,7 @@ h3 {
 
     transform: scale(0);
     transform-origin: top center;
-    transition: 0.6s;
+    transition: 0.3s;
 
     z-index: 9999;
 }
