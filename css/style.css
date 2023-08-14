@@ -417,6 +417,10 @@ h3 {
     background-color: #fff;
 }
 
+.weather .card-container{
+    display: none;
+}
+
 .weather-icon {
     width: 100px;
 }

@@ -14,6 +14,8 @@ const windSpeed = card.querySelector('.wind');
 const pressure = card.querySelector('.pressure');
 
 let cityCardCount = 0;
+// Maximum number of city cards to display
+const MAX_CITY_CARDS = 3;
 
 // Define an array to store existing cities
 let existingCities = [];
@@ -65,14 +67,13 @@ async function getWeatherData(cityName) {
   const cardContainer = document.querySelector('.card-container');
 
   if (response.status == 404) {
-    card.style.display = "none";
     error.style.display = "block";
+    cardContainer.style.display = "none";
   } else {
     let data = await response.json();
 
     const weatherCard = createWeatherCard(data);
     cardContainer.innerHTML = '';
-    card.style.display = "block";
     cardContainer.style.display = "block";
     cardContainer.appendChild(weatherCard);
     error.style.display = "none";
@@ -271,6 +272,10 @@ function createCityCard(data) {
   return cityCard;
 }
 
+if (savedCities.length > MAX_CITY_CARDS) {
+  savedCities.splice(MAX_CITY_CARDS);
+  }
+  
 for (const cityData of savedCities) {
   const cityCard = createCityCard({
     name: cityData.name,
