@@ -25,7 +25,7 @@ const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q="
 enterButton.addEventListener('click', () => {
   const searchTerm = searchInput.value.trim();
   getWeatherData(searchTerm);
-  searchInput.value ="";
+  searchInput.value = "";
 });
 
 searchInput.addEventListener('keydown', (event) => {
@@ -33,7 +33,7 @@ searchInput.addEventListener('keydown', (event) => {
     event.preventDefault();
     const searchTerm = searchInput.value.trim();
     getWeatherData(searchTerm);
-    searchInput.value ="";
+    searchInput.value = "";
   }
 });
 link.addEventListener("click", showModal);
@@ -72,43 +72,32 @@ async function getWeatherData(cityName) {
     const cityName = data.name;
 
     // Check if the city already exists in the array
-   // Check if the city already exists in savedCities array
-const existingCityIndex = savedCities.findIndex((city) => city.name === data.name);
+    const existingCity = existingCities.find((city) => city === cityName);
 
-if (existingCityIndex === -1) {
-  // City doesn't exist, create a new city card
-  const cityCard = createCityCard(data);
+    if (!existingCity) {
+      // Add the city to the array
+      existingCities.push(cityName);
 
-  // Add the new city card to the saved cities container
-  savedCitiesContainer.insertBefore(cityCard, savedCitiesContainer.firstChild);
+      // Limit the number of cities to three
+      if (existingCities.length > 3) {
+        existingCities.shift(); // Remove the oldest city from the beginning of the array
+      }
 
-  // Add the city to the saved cities array
-  savedCities.unshift({
-    name: data.name,
-    country: data.sys.country,
-    temperature: Math.round(data.main.temp),
-    humidity: data.main.humidity,
-    windSpeed: Math.round(data.wind.speed),
-    weatherIcon: getWeatherIcon(data.weather[0].main)
-  });
+      const cityCards = savedCitiesContainer.querySelectorAll('.city-card');
+      const MAX_CITY_CARDS = 3;
 
-  // Limit the number of cities to three
-  if (savedCities.length > 3) {
-    // Remove the oldest city card from the saved cities container
-    savedCitiesContainer.removeChild(savedCitiesContainer.lastChild);
+      // Check if the maximum number of city cards has been reached
+      if (cityCards.length >= MAX_CITY_CARDS) {
+        // If the maximum number of city cards has been reached, remove the oldest city card
+        savedCitiesContainer.removeChild(cityCards[MAX_CITY_CARDS - 1]);
+      }
 
-    // Remove the oldest city from the saved cities array
-    savedCities.pop();
-  }
-} else {
-  // City already exists, you can choose to update the existing card or take any other action
-  const existingCityCard = savedCitiesContainer.children[existingCityIndex];
-  // Update the existing city card with the latest data
-  updateCityCard(existingCityCard, data);
-}
+      // Create a new city card for the searched city
+      const cityCard = createCityCard(data);
 
-// Store the updated saved cities array in the local storage
-localStorage.setItem('savedCities', JSON.stringify(savedCities));
+      // Add the new city card to the saved cities container
+      savedCitiesContainer.insertBefore(cityCard, savedCitiesContainer.firstChild);
+    }
   }
 }
 
