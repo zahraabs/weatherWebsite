@@ -1,3 +1,4 @@
+// make variables
 const link = document.querySelector(".post-job--search .post-job__search-icon");
 const modal = document.querySelector(".modal");
 const close = modal.querySelector("i");
@@ -13,8 +14,16 @@ const windSpeed = card.querySelector('.wind');
 const pressure = card.querySelector('.pressure');
 
 let cityCardCount = 0;
+
+// Define an array to store existing cities
+let existingCities = [];
+
+// Read the saved cities from local storage and create city cards for each saved city
+const savedCities = JSON.parse(localStorage.getItem('savedCities')) || [];
+
 const savedCitiesContainer = document.createElement('div');
 savedCitiesContainer.classList.add('saved-cities-container');
+
 modal.parentNode.insertBefore(savedCitiesContainer, modal);
 modal.appendChild(savedCitiesContainer)
 
@@ -36,6 +45,7 @@ searchInput.addEventListener('keydown', (event) => {
     searchInput.value = "";
   }
 });
+
 link.addEventListener("click", showModal);
 close.addEventListener("click", closeModal);
 
@@ -49,17 +59,14 @@ function closeModal() {
   searchInput.value = "";
 }
 
-// Define an array to store existing cities
-let existingCities = [];
-
 async function getWeatherData(cityName) {
   const response = await fetch(apiUrl + cityName + `&appid=${apiKey}`);
   const error = document.querySelector(".error");
   const cardContainer = document.querySelector('.card-container');
 
   if (response.status == 404) {
-    error.style.display = "block";
     card.style.display = "none";
+    error.style.display = "block";
   } else {
     let data = await response.json();
 
@@ -255,7 +262,7 @@ function createCityCard(data) {
     windSpeed: Math.round(data.wind.speed),
     weatherIcon: getWeatherIcon(data.weather[0].main)
   };
-  const savedCities = JSON.parse(localStorage.getItem('savedCities')) || [];
+  
   const existingCity = savedCities.find(city => city.name === cityData.name);
   if (!existingCity) {
     savedCities.unshift(cityData);
@@ -264,15 +271,6 @@ function createCityCard(data) {
   return cityCard;
 }
 
-// Read the saved cities from local storage and create city cards for each saved city
-const savedCities = JSON.parse(localStorage.getItem('savedCities')) || [];
-
-const MAX_CITY_CARDS = 3; // Maximum number of city cards to display
-
-// Truncate the savedCities array if it exceeds the maximum limit
-if (savedCities.length > MAX_CITY_CARDS) {
-  savedCities.splice(MAX_CITY_CARDS);
-}
 for (const cityData of savedCities) {
   const cityCard = createCityCard({
     name: cityData.name,
