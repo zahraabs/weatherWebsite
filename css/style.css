@@ -398,7 +398,7 @@ h3 {
 
 .modal .SearchCardContainer input {
 
-    width: 450px;
+    width: 250px;
     background-color: transparent;
     color: white;
     outline: none;
@@ -1179,4 +1179,9 @@ h3 {
         margin-top: 20px;
         height: auto;
       }
+
+      .modal .SearchCardContainer input {
+
+        width: 450px;
+    }
 }
