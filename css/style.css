@@ -1033,7 +1033,99 @@ h3 {
 
 
 
-@media screen and (min-width:1024px) and (max-width:1280px) {
+
+
+.saved-cities-container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 300px; /* Adjust the height value as needed */
+  }
+
+.weather {
+    top: 350px;
+    text-align: center;
+}
+
+.weather .card-weather {
+    width: 350px;
+    height: 300px;
+    background-color: #fff;
+    /* display: none; */
+}
+
+.weather-icon {
+    width: 100px;
+}
+
+.modal h1 {
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.modal h2 {
+    font-size: 25px;
+    font-weight: 400;
+    margin-top: -10px;
+}
+
+.details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+.city-card .details{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.col {
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+.col img {
+    width: 25px;
+    margin-right: 10px;
+}
+
+.pressure{
+    margin-top: 5px;
+}
+
+
+.error{
+    position: absolute;
+    top: 300px;
+    color: rgb(250, 55, 55);
+    display: none;
+}
+
+
+
+  
+  .city-card {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .city-name {
+    margin-right: 10px;
+    font-size: 1.2rem;
+  }
+  @media screen and (min-width:1024px) and (max-width:1280px) {
 
     .container {
         padding-left: 12rem;
@@ -1072,90 +1164,19 @@ h3 {
     .find-talent--img {
         display: none;
     }
+
+ 
+
+ 
 }
 
-.weather {
-    top: 350px;
-    text-align: center;
+@media screen and (min-width : 1024px){
+    .saved-cities-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        overflow-y: hidden;
+        justify-content: space-between;
+        margin-top: 20px;
+        height: auto;
+      }
 }
-
-.weather .card-weather {
-    width: 350px;
-    height: 300px;
-    background-color: #fff;
-}
-
-.weather-icon {
-    width: 100px;
-}
-
-.modal h1 {
-    font-size: 30px;
-    font-weight: 500;
-}
-
-.modal h2 {
-    font-size: 25px;
-    font-weight: 400;
-    margin-top: -10px;
-}
-
-.details {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px;
-}
-
-.col {
-    display: flex;
-    align-items: center;
-    text-align: left;
-}
-
-.col img {
-    width: 25px;
-    margin-right: 10px;
-}
-
-/* .card-weather {
-    display: none;
-} */
-
-.pressure{
-    margin-top: 5px;
-}
-
-
-.error{
-    position: absolute;
-    top: 300px;
-    color: rgb(250, 55, 55);
-    display: none;
-}
-
-
-.saved-cities-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .city-card {
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f2f2f2;
-    padding: 10px;
-    border-radius: 5px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .city-name {
-    margin-right: 10px;
-    font-size: 1.2rem;
-  }
-  

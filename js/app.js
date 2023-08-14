@@ -3,7 +3,7 @@ const modal = document.querySelector(".modal");
 const close = modal.querySelector("i");
 const searchInput = modal.querySelector("#search");
 const enterButton = modal.querySelector('button');
-const card = modal.querySelector('.card-weather');
+const card = modal.querySelector('.weather .card-weather');
 const weatherIcon = card.querySelector('.weather-icon');
 const temperature = card.querySelector('.temp');
 const city = card.querySelector('.city');
@@ -20,6 +20,7 @@ modal.appendChild(savedCitiesContainer)
 
 const apiKey = "f3e559c84d85921b525063ad634edb0b";
 const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
 
 enterButton.addEventListener('click', () => {
   const searchTerm = searchInput.value.trim();
@@ -48,69 +49,70 @@ function closeModal() {
   searchInput.value = "";
 }
 
-async function getWeatherData(cityName) {
+// Define an array to store existing cities
+let existingCities = [];
 
-  // Example API call using fetch()
+async function getWeatherData(cityName) {
   const response = await fetch(apiUrl + cityName + `&appid=${apiKey}`);
   const error = document.querySelector(".error");
   const cardContainer = document.querySelector('.card-container');
+
   if (response.status == 404) {
     error.style.display = "block";
-    // card.style.display = "none";
+    card.style.display = "none";
   } else {
-
     let data = await response.json();
 
     const weatherCard = createWeatherCard(data);
     cardContainer.innerHTML = '';
-    cardContainer.appendChild(weatherCard)
-    // card.style.display = "block";
+    card.style.display = "block";
+    cardContainer.style.display = "block";
+    cardContainer.appendChild(weatherCard);
     error.style.display = "none";
-    const cityCards = savedCitiesContainer.querySelectorAll('.city-card');
-    const MAX_CITY_CARDS = 3;
     const cityName = data.name;
-    
-    // Check if a city card for the searched city already exists
-    const existingCityCards = savedCitiesContainer.querySelector(`.city-card .city[data-city="${cityName}"]`);
-    if (existingCityCards) {
-      // If a city card for the searched city already exists, do not add a new card
-      return;
-    }
-    
-    // Check if the maximum number of city cards has been reached
-    
-    if (cityCards.length >= MAX_CITY_CARDS) {
-      // If the maximum number of city cards has been reached, remove the oldest city card
-      savedCitiesContainer.removeChild(cityCards[MAX_CITY_CARDS - 1]);
-    }
-    
-    // Create a new city card for the searched city
-    const cityCard = createCityCard(data);
-    
-    // Add the new city card to the saved cities container
-    savedCitiesContainer.insertBefore(cityCard, savedCitiesContainer.firstChild);
+
+    // Check if the city already exists in the array
+   // Check if the city already exists in savedCities array
+const existingCityIndex = savedCities.findIndex((city) => city.name === data.name);
+
+if (existingCityIndex === -1) {
+  // City doesn't exist, create a new city card
+  const cityCard = createCityCard(data);
+
+  // Add the new city card to the saved cities container
+  savedCitiesContainer.insertBefore(cityCard, savedCitiesContainer.firstChild);
+
+  // Add the city to the saved cities array
+  savedCities.unshift({
+    name: data.name,
+    country: data.sys.country,
+    temperature: Math.round(data.main.temp),
+    humidity: data.main.humidity,
+    windSpeed: Math.round(data.wind.speed),
+    weatherIcon: getWeatherIcon(data.weather[0].main)
+  });
+
+  // Limit the number of cities to three
+  if (savedCities.length > 3) {
+    // Remove the oldest city card from the saved cities container
+    savedCitiesContainer.removeChild(savedCitiesContainer.lastChild);
+
+    // Remove the oldest city from the saved cities array
+    savedCities.pop();
   }
+} else {
+  // City already exists, you can choose to update the existing card or take any other action
+  const existingCityCard = savedCitiesContainer.children[existingCityIndex];
+  // Update the existing city card with the latest data
+  updateCityCard(existingCityCard, data);
+}
 
-
+// Store the updated saved cities array in the local storage
+localStorage.setItem('savedCities', JSON.stringify(savedCities));
+  }
 }
 
 
-const getLocation = async () => {
-
-  const url = "http://ip-api.com/json/?fields=country,city,lat,lon,timezone";
-  const response = await fetch(url);
-  const data = await response.json();
-
-  return data;
-}
-
-
-(async () => {
-  const locationData = await getLocation();
-  if (locationData !== null) {
-    await getWeatherData(locationData.city);
-  }
-})();
 
 
 function createWeatherCard(data) {
@@ -228,7 +230,7 @@ function createCityCard(data) {
   cityElem.classList.add('city');
   cityElem.textContent = data.name;
 
-  const countryElem = document.createElement('h3');
+  const countryElem = document.createElement('h4');
   countryElem.classList.add('country');
   countryElem.textContent = data.sys.country;
 
