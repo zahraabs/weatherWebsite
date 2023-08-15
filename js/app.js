@@ -83,16 +83,13 @@ async function getWeatherData(cityName) {
     const existingCity = existingCities.find((city) => city === cityName);
 
     if (!existingCity) {
-      // Add the city to the array
       existingCities.push(cityName);
 
-      // Limit the number of cities to three
       if (existingCities.length > 3) {
         existingCities.shift(); // Remove the oldest city from the beginning of the array
       }
 
       const cityCards = savedCitiesContainer.querySelectorAll('.city-card');
-      const MAX_CITY_CARDS = 3;
 
       // Check if the maximum number of city cards has been reached
       if (cityCards.length >= MAX_CITY_CARDS) {
